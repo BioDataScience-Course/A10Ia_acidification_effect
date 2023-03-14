@@ -1,0 +1,119 @@
+---
+title: "___"
+author: "___"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Introduction
+
+<!--% Proposez une introduction en 3 à 5 phrases sur *Marginopora vertebralis* Quoy & Gaimard, 1830 et sur *Laurencia intricata* J.V.Lamouroux, 1813.-->
+
+# Analyses
+
+<!--% Importez le tableau growth.csv-->
+
+```{r import}
+growth <- ___
+skimr::skim(growth)
+# Ne modifiez pas ci-dessous
+write$rds(growth, here::here("tests", "growth.rds"), compress = "xz")
+```
+
+## Variation de la croissance de *M. vertebralis* en condition de stress
+
+<!--% Sélectionnez uniquement les observations réalisée sur *M. vertebralis* seul. -->
+
+```{r filter1}
+growth1 <- ___
+# Ne modifiez pas ci-dessous
+write$rds(growth1, here::here("tests", "growth1.rds"), compress = "xz")
+```
+
+<!--% Réalisez un nuage de points pertinent qui comprend la moyenne et l'erreur standard afin d'illustrer la situation. -->
+
+```{r descri1}
+p1 <- ___
+p1
+# Ne modifiez pas ci-dessous
+write$rds(p1, here::here("tests", "p1.rds"), compress = "xz")
+```
+
+<!--% Décrivez le graphique réalisé en 2 à 3 phrases. Comparez votre graphique par rapport à celui proposé par les auteurs de la publication en 2 à 3 phrases. -->
+
+-   Chaque groupe comprend dix individus. On observe deux moyennes proches de 0% et deux moyennes très légèrement plus faible.
+
+-   La baisse du pH induit une différence significative de croissance. On observe que les deux groupes soumis à un ph plus faible ont une croissance négative plus faible.
+
+-   Chaque groupe comprend dix individus. Sur deux semaines d'expérience, un gain moyen de croissance de 0.023 %/J est observé dans le groupe contrôle (température de 25.6°C et pH de 7.95.). L'augmentation uniquement de la température à 28.1°C mène à une légère augmentation de la croissance 0.062 %/J. Une chute de la croissance journalière est observée lors de la diminution du pH à 7.71. à -0.22 %/J. La diminution est plus faible lorsque cette baisse de pH est associé à une hausse de la température à -0.20%/J.
+
+-   La croissance par jour varie entre les quatre conditions d'expérience.
+
+<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `group`-->
+
+```{r anova1}
+anova1 <- ___
+anova(anova1)  
+# Ne modifiez pas ci-dessous
+write$rds(anova1, here::here("tests", "anova1.rds"), compress = "xz")
+```
+
+<!--% Réalisez la vérification des conditions d'application du test. -->
+
+```{r appli1}
+# Normalité des résidus
+___
+# Homoscédasticité
+homo <- ___
+homo
+# Ne modifiez pas ci-dessous
+write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
+```
+
+<!--% Réalisez le test de comparaison multiple, si cela est justifié. Pour ce faire, retirez une dièse à chaque ligne du chunk ci-dessous devant le code et complétez les zones manquantes. -->
+
+```{r multcomp1}
+#summary(anovaComp. <- confint(multcomp::glht(___,
+#  linfct = multcomp::mcp(___ = "Tukey")))) # Add a second factor if you want
+#.oma <- par(oma = c(0, 5.1, 0, 0)); plot(anovaComp.); par(.oma); rm(.oma)
+## Ne modifiez pas ci-dessous
+#write$rds(anovaComp., here::here("tests", "anovaComp.rds"), compress = "xz")
+```
+
+<!--% Sélectionnez parmi les phrases ci-dessous afin de proposer une description complète de l'ANOVA.-->
+
+-   La distribution des résidus suit une distribution normale avec une enveloppe de confiance à 95%.
+
+-   La distribution des résidus suit une distribution anormale.
+
+-   La distribution des résidus ne suit pas une distribution des normale. Il est préférable de transformer les données.
+
+-   La variance entre les 4 groupes est similaire au seuil alpha de 5% (Bartlett's K-squared = 6.2708, df = 3, p-value = 0.09915).
+
+-   On observe une hétéroscédasticité entre les 4 groupes au seuil alpha de 5% (Bartlett's K-squared = 6.2708, df = 3, p-value = 0.09915).
+
+-   Au moins un des 4 groupes diffère des autres au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
+
+-   Tous les groupes diffèrent entre eux au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
+
+-   Il n'y a pas de différence entre ces 4 groupes au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
+
+-   A pH ambiant de 7.95, on n'observe pas de différence significative entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C (Tukey HSD = 0.571, valeur de p = 0.94013). On n'observe également pas de différence significative entre les individus stressés par un pH plus bas de 7.71 à température ambiante ou à température plus élevée (Tukey HSD = 0.345, valeur de p = 0.98563). Les quatre autres comparaisons sont significatives différentes au seuil alpha de 5% (Tableau ci-dessus).
+
+-   Deux comparaisons sont signification différentes. Il s'agit de la comparaison entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C sans modification du pH et de la comparaison entre les deux groupes soumis à une baisse du pH car il l'intervalle de confiance passe par 0 sur le graphique ci-dessus.
+
+## Variation de la croissance de *M. vertebralis* en présence de *L. intricata*
+
+<!--% Sélectionnez uniquement les observations réalisée sur *M. vertebralis* associé à *L. intricata*. -->
+
+```{r filter2}
+growth2 <- ___
+# Ne modifiez pas ci-dessous
+write$rds(growth1, here::here("tests", "growth2.rds"), compress = "xz")
+```
+
+<!--% Réalisez un tableau pertinent qui comprend la moyenne et l'écart-type afin d'illustrer la situation. -->
+
+```{r descri2}
+
+```
