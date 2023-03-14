@@ -22,7 +22,7 @@ write$rds(growth, here::here("tests", "growth.rds"), compress = "xz")
 
 ## Variation de la croissance de *M. vertebralis* en condition de stress
 
-<!--% Sélectionnez uniquement les observations réalisée sur *M. vertebralis* seul. -->
+<!--% Sélectionnez uniquement les observations réalisées sur *M. vertebralis* seul. -->
 
 ```{r filter1}
 growth1 <- ___
@@ -41,11 +41,11 @@ write$rds(p1, here::here("tests", "p1.rds"), compress = "xz")
 
 <!--% Décrivez le graphique réalisé en 2 à 3 phrases. Comparez votre graphique par rapport à celui proposé par les auteurs de la publication en 2 à 3 phrases. -->
 
--   Chaque groupe comprend dix individus. On observe deux moyennes proches de 0% et deux moyennes très légèrement plus faible.
+-   Chaque groupe comprend dix individus. On observe deux moyennes proches de 0% et deux moyennes très légèrement plus faibles.
 
--   La baisse du pH induit une différence significative de croissance. On observe que les deux groupes soumis à un ph plus faible ont une croissance négative plus faible.
+-   La baisse du pH induit une différence significative de croissance. On observe que les deux groupes soumis à un pH plus faible ont une croissance négative plus faible.
 
--   Chaque groupe comprend dix individus. Sur deux semaines d'expérience, un gain moyen de croissance de 0.023 %/J est observé dans le groupe contrôle (température de 25.6°C et pH de 7.95.). L'augmentation uniquement de la température à 28.1°C mène à une légère augmentation de la croissance 0.062 %/J. Une chute de la croissance journalière est observée lors de la diminution du pH à 7.71. à -0.22 %/J. La diminution est plus faible lorsque cette baisse de pH est associé à une hausse de la température à -0.20%/J.
+-   Chaque groupe comprend dix individus. Sur deux semaines d'expérience, un gain moyen de croissance de 0.023 %/J est observé dans le groupe contrôle (température de 25.6°C et pH de 7.95.). L'augmentation uniquement de la température à 28.1°C mène à une légère augmentation de la croissance 0.062 %/J. Une chute de la croissance journalière est observée lors de la diminution du pH à 7.71. à -0.22 %/J. La diminution est plus faible lorsque cette baisse de pH est associée à une hausse de la température à -0.20%/J.
 
 -   La croissance par jour varie entre les quatre conditions d'expérience.
 
@@ -70,7 +70,7 @@ homo
 write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
 ```
 
-<!--% Réalisez le test de comparaison multiple, si cela est justifié. Pour ce faire, retirez une dièse à chaque ligne du chunk ci-dessous devant le code et complétez les zones manquantes. -->
+<!--% Réalisez le test de comparaison multiple, si cela est justifié. Pour ce faire, retirez un dièse à chaque ligne du chunk ci-dessous devant le code et complétez les zones manquantes. -->
 
 ```{r multcomp1}
 #summary(anovaComp. <- confint(multcomp::glht(___,
@@ -84,9 +84,9 @@ write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
 
 -   La distribution des résidus suit une distribution normale avec une enveloppe de confiance à 95%.
 
--   La distribution des résidus suit une distribution anormale.
+-   La distribution des résidus suit une distribution presque normale.
 
--   La distribution des résidus ne suit pas une distribution des normale. Il est préférable de transformer les données.
+-   La distribution des résidus ne suit pas une distribution normale. Il est préférable de transformer les données.
 
 -   La variance entre les 4 groupes est similaire au seuil alpha de 5% (Bartlett's K-squared = 6.2708, df = 3, p-value = 0.09915).
 
@@ -98,13 +98,13 @@ write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
 
 -   Il n'y a pas de différence entre ces 4 groupes au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
 
--   A pH ambiant de 7.95, on n'observe pas de différence significative entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C (Tukey HSD = 0.571, valeur de p = 0.94013). On n'observe également pas de différence significative entre les individus stressés par un pH plus bas de 7.71 à température ambiante ou à température plus élevée (Tukey HSD = 0.345, valeur de p = 0.98563). Les quatre autres comparaisons sont significatives différentes au seuil alpha de 5% (Tableau ci-dessus).
+-   À pH ambiant de 7.95, on n'observe pas de différence significative entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C (Tukey HSD = 0.571, valeur de p = 0.94013). On n'observe également pas de différence significative entre les individus stressés par un pH plus bas de 7.71 à température ambiante ou à température plus élevée (Tukey HSD = 0.345, valeur de p = 0.98563). Les quatre autres comparaisons sont significatives différentes au seuil alpha de 5% (Tableau ci-dessus).
 
--   Deux comparaisons sont signification différentes. Il s'agit de la comparaison entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C sans modification du pH et de la comparaison entre les deux groupes soumis à une baisse du pH car il l'intervalle de confiance passe par 0 sur le graphique ci-dessus.
+-   Deux comparaisons sont significativement différentes. Il s'agit de la comparaison entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C sans modification du pH et de la comparaison entre les deux groupes soumis à une baisse du pH car il l'intervalle de confiance passe par 0 sur le graphique ci-dessus.
 
 ## Variation de la croissance de *M. vertebralis* en présence de *L. intricata*
 
-<!--% Sélectionnez uniquement les observations réalisée sur *M. vertebralis* associé à *L. intricata*. -->
+<!--% Sélectionnez uniquement les observations réalisées sur *M. vertebralis* associé à *L. intricata*. -->
 
 ```{r filter2}
 growth2 <- ___

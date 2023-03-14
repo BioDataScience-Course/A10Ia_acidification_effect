@@ -5,7 +5,7 @@ lang: "fr"
 bibliography: "bibliography/biblio.bib"
 ---
 
-@2020_DOO ont étudié les effets d'une acidification et d'une augmentation de la température sur *Marginopora vertebralis* Quoy & Gaimard, 1830. Ils ont également étudié en parallèlle ces effets lorsque M. vertebralis est associé à l'un de ces hotes *Laurencia intricata* J.V.Lamouroux, 1813.
+@2020_DOO ont étudié les effets d'une acidification et d'une augmentation de la température sur *Marginopora vertebralis* Quoy & Gaimard, 1830. Ils ont également étudié en parallèle ces effets lorsque M. vertebralis est associé à l'un de ces hôtes *Laurencia intricata* J.V.Lamouroux, 1813.
 
 Les auteurs ont publié les données pour réaliser cette étude [@2020_DOO_data]. Vous utiliserez une partie de ces données pour appliquer l'analyse de variance à un facteur et le test de Kruskal-Wallis. Les données mises à disposition par les auteurs de l'article se trouvent dans le dossier `data/raw/`.
 
