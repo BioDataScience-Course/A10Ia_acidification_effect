@@ -1,10 +1,11 @@
-Untitled
+Variation de croissance de *Marginopora vertebralis* Quoy & Gaimard,
+1830
 ================
 
 Doo et al. (2020) ont étudié les effets d’une acidification et d’une
 augmentation de la température sur *Marginopora vertebralis* Quoy &
-Gaimard, 1830. Ils ont également étudié en parallèlle ces effets lorsque
-M. vertebralis est associé à l’un de ces hotes *Laurencia intricata*
+Gaimard, 1830. Ils ont également étudié en parallèle ces effets lorsque
+M. vertebralis est associé à l’un de ces hôtes *Laurencia intricata*
 J.V.Lamouroux, 1813.
 
 Les auteurs ont publié les données pour réaliser cette étude (Doo et al.

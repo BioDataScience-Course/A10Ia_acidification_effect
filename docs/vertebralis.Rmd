@@ -11,6 +11,10 @@ output: html_document
 
 # Analyses
 
+```{r setup}
+SciViews::R("infer", "model", lang = "fr")
+```
+
 <!--% Importez le tableau growth.csv-->
 
 ```{r import}
@@ -30,35 +34,36 @@ growth1 <- ___
 write$rds(growth1, here::here("tests", "growth1.rds"), compress = "xz")
 ```
 
-<!--% Réalisez un nuage de points pertinent qui comprend la moyenne et l'erreur standard afin d'illustrer la situation. -->
+<!--% Réalisez un tableau résumant l'expérience avec des descripteurs numériques pertinents. -->
 
 ```{r descri1}
+tab1 <- ___
+tab1
+# Ne modifiez pas ci-dessous
+write$rds(tab1, here::here("tests", "tab1.rds"), compress = "xz")
+```
+
+<!--% Réalisez un nuage de points pertinent qui comprend la moyenne et l'erreur standard afin d'illustrer la situation. -->
+
+```{r plot1}
 p1 <- ___
 p1
 # Ne modifiez pas ci-dessous
 write$rds(p1, here::here("tests", "p1.rds"), compress = "xz")
 ```
 
-<!--% Décrivez le graphique réalisé en 2 à 3 phrases. Comparez votre graphique par rapport à celui proposé par les auteurs de la publication en 2 à 3 phrases. -->
+<!--% Décrivez le graphique et le tableau réalisé en 3 à 4 phrases. -->
 
--   Chaque groupe comprend dix individus. On observe deux moyennes proches de 0% et deux moyennes très légèrement plus faibles.
-
--   La baisse du pH induit une différence significative de croissance. On observe que les deux groupes soumis à un pH plus faible ont une croissance négative plus faible.
-
--   Chaque groupe comprend dix individus. Sur deux semaines d'expérience, un gain moyen de croissance de 0.023 %/J est observé dans le groupe contrôle (température de 25.6°C et pH de 7.95.). L'augmentation uniquement de la température à 28.1°C mène à une légère augmentation de la croissance 0.062 %/J. Une chute de la croissance journalière est observée lors de la diminution du pH à 7.71. à -0.22 %/J. La diminution est plus faible lorsque cette baisse de pH est associée à une hausse de la température à -0.20%/J.
-
--   La croissance par jour varie entre les quatre conditions d'expérience.
-
-<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `group`-->
+<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph`. Qui est la combinaison de la variable temp et de la variable ph-->
 
 ```{r anova1}
 anova1 <- ___
-anova(anova1)  
+anova(___)  
 # Ne modifiez pas ci-dessous
 write$rds(anova1, here::here("tests", "anova1.rds"), compress = "xz")
 ```
 
-<!--% Réalisez la vérification des conditions d'application du test. -->
+<!--% Vérifiez les conditions d'application de l'ANOVA à un facteur. -->
 
 ```{r appli1}
 # Normalité des résidus
@@ -67,40 +72,16 @@ ___
 homo <- ___
 homo
 # Ne modifiez pas ci-dessous
-write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
+write$rds(homo, here::here("tests", "homo1.rds"), compress = "xz")
 ```
 
-<!--% Réalisez le test de comparaison multiple, si cela est justifié. Pour ce faire, retirez un dièse à chaque ligne du chunk ci-dessous devant le code et complétez les zones manquantes. -->
+<!--% Réalisez le test de comparaison multiple, si cela est justifié. Sinon laissez ce chunk vide. -->
 
 ```{r multcomp1}
-#summary(anovaComp. <- confint(multcomp::glht(___,
-#  linfct = multcomp::mcp(___ = "Tukey")))) # Add a second factor if you want
-#.oma <- par(oma = c(0, 5.1, 0, 0)); plot(anovaComp.); par(.oma); rm(.oma)
-## Ne modifiez pas ci-dessous
-#write$rds(anovaComp., here::here("tests", "anovaComp.rds"), compress = "xz")
+
 ```
 
-<!--% Sélectionnez parmi les phrases ci-dessous afin de proposer une description complète de l'ANOVA.-->
-
--   La distribution des résidus suit une distribution normale avec une enveloppe de confiance à 95%.
-
--   La distribution des résidus suit une distribution presque normale.
-
--   La distribution des résidus ne suit pas une distribution normale. Il est préférable de transformer les données.
-
--   La variance entre les 4 groupes est similaire au seuil alpha de 5% (Bartlett's K-squared = 6.2708, df = 3, p-value = 0.09915).
-
--   On observe une hétéroscédasticité entre les 4 groupes au seuil alpha de 5% (Bartlett's K-squared = 6.2708, df = 3, p-value = 0.09915).
-
--   Au moins un des 4 groupes diffère des autres au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
-
--   Tous les groupes diffèrent entre eux au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
-
--   Il n'y a pas de différence entre ces 4 groupes au seuil alpha de 5% (F3,36 = 9.51, valeur de p = 9.213e-05).
-
--   À pH ambiant de 7.95, on n'observe pas de différence significative entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C (Tukey HSD = 0.571, valeur de p = 0.94013). On n'observe également pas de différence significative entre les individus stressés par un pH plus bas de 7.71 à température ambiante ou à température plus élevée (Tukey HSD = 0.345, valeur de p = 0.98563). Les quatre autres comparaisons sont significatives différentes au seuil alpha de 5% (Tableau ci-dessus).
-
--   Deux comparaisons sont significativement différentes. Il s'agit de la comparaison entre les individus à température ambiante (25.6°C) et à température augmentée de 3°C sans modification du pH et de la comparaison entre les deux groupes soumis à une baisse du pH car il l'intervalle de confiance passe par 0 sur le graphique ci-dessus.
+<!--% Interprétez en 5 lignes votre anova à 1 facteur. Soyez complet ! Traitez de la description statistique et biologique. N'oubliez pas les conditions d'application du test..-->
 
 ## Variation de la croissance de *M. vertebralis* en présence de *L. intricata*
 
@@ -109,11 +90,56 @@ write$rds(anova1, here::here("tests", "homo1.rds"), compress = "xz")
 ```{r filter2}
 growth2 <- ___
 # Ne modifiez pas ci-dessous
-write$rds(growth1, here::here("tests", "growth2.rds"), compress = "xz")
+write$rds(growth2, here::here("tests", "growth2.rds"), compress = "xz")
 ```
 
-<!--% Réalisez un tableau pertinent qui comprend la moyenne et l'écart-type afin d'illustrer la situation. -->
+<!--% Réalisez un tableau résumant l'expérience avec des descripteurs numériques pertinents. -->
 
 ```{r descri2}
+tab2 <- ___
+tab2
+# Ne modifiez pas ci-dessous
+write$rds(tab2, here::here("tests", "tab2.rds"), compress = "xz")
+```
+
+<!--% Réalisez un nuage de points pertinent qui comprend la moyenne et l'erreur standard afin d'illustrer la situation. -->
+
+```{r plot2}
+p2 <- ___
+p2
+# Ne modifiez pas ci-dessous
+write$rds(p2, here::here("tests", "p2.rds"), compress = "xz")
+```
+
+<!--% Décrivez le graphique réalisé en 2 à 3 phrases. -->
+
+<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph`. Qui est la combinaison de la variable temp et de la variable ph-->
+
+```{r anova1}
+anova2 <- ___
+anova(___)  
+# Ne modifiez pas ci-dessous
+write$rds(anova2, here::here("tests", "anova2.rds"), compress = "xz")
+```
+
+<!--% Vérifiez les conditions d'application de l'ANOVA à un facteur. -->
+
+```{r appli2}
+# Normalité des résidus
+___
+# Homoscédasticité
+homo2 <- ___
+homo2
+# Ne modifiez pas ci-dessous
+write$rds(homo2, here::here("tests", "homo2.rds"), compress = "xz")
+```
+
+<!--% Réalisez le test de comparaison multiple, si cela est justifié. Sinon laissez ce chunk vide. -->
+
+```{r multcomp2}
 
 ```
+
+<!--% Interprétez en 5 lignes votre anova à 1 facteur. Soyez complet ! Traitez de la description statistique et biologique. N'oubliez pas les conditions d'application du test..-->
+
+<!--% BONUS : Comparez votre graphique réalisé dans le chunk `descri1` par rapport à celui proposé par les auteurs de la publication en 2 à 3 phrases. -->
