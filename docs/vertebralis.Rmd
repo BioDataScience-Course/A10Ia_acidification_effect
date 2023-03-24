@@ -7,7 +7,7 @@ output: html_document
 
 # Introduction
 
-<!--% Proposez une introduction en 3 à 5 phrases sur *Marginopora vertebralis* Quoy & Gaimard, 1830 et sur *Laurencia intricata* J.V.Lamouroux, 1813.-->
+<!--% Rédigez une introduction en 2 à 4 phrases sur *Marginopora vertebralis* Quoy & Gaimard, 1830 et sur *Laurencia intricata* J.V.Lamouroux, 1813.-->
 
 # Analyses
 
@@ -43,7 +43,7 @@ tab1
 write$rds(tab1, here::here("tests", "tab1.rds"), compress = "xz")
 ```
 
-<!--% Réalisez un nuage de points pertinent qui comprend la moyenne et l'erreur standard afin d'illustrer la situation. -->
+<!--% Réalisez un nuage de points pertinent qui présente la moyenne et l'erreur standard afin d'illustrer la situation. -->
 
 ```{r plot1}
 p1 <- ___
@@ -54,7 +54,7 @@ write$rds(p1, here::here("tests", "p1.rds"), compress = "xz")
 
 <!--% Décrivez le graphique et le tableau réalisé en 3 à 4 phrases. -->
 
-<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph`. Qui est la combinaison de la variable temp et de la variable ph-->
+<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph` pour les groupes (qui est la combinaison de la variable `temp` et de la variable `ph`). -->
 
 ```{r anova1}
 anova1 <- ___
@@ -113,7 +113,7 @@ write$rds(p2, here::here("tests", "p2.rds"), compress = "xz")
 
 <!--% Décrivez le graphique réalisé en 2 à 3 phrases. -->
 
-<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph`. Qui est la combinaison de la variable temp et de la variable ph-->
+<!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph` pour le regroupement (combinaison de la variable `temp` et de la variable `ph`). -->
 
 ```{r anova1}
 anova2 <- ___
@@ -140,6 +140,6 @@ write$rds(homo2, here::here("tests", "homo2.rds"), compress = "xz")
 
 ```
 
-<!--% Interprétez en 5 lignes votre anova à 1 facteur. Soyez complet ! Traitez de la description statistique et biologique. N'oubliez pas les conditions d'application du test..-->
+<!--% Interprétez en 5 lignes votre ANOVA à 1 facteur. Soyez complet ! Traitez de la description statistique et biologique. N'oubliez pas les conditions d'application du test. -->
 
 <!--% BONUS : Comparez votre graphique réalisé dans le chunk `descri1` par rapport à celui proposé par les auteurs de la publication en 2 à 3 phrases. -->

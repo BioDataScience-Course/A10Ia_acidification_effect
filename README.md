@@ -5,31 +5,30 @@ Variation de croissance de *Marginopora vertebralis* Quoy & Gaimard,
 Doo et al. (2020) ont étudié les effets d’une acidification et d’une
 augmentation de la température sur *Marginopora vertebralis* Quoy &
 Gaimard, 1830. Ils ont également étudié en parallèle ces effets lorsque
-M. vertebralis est associé à l’un de ces hôtes *Laurencia intricata*
-J.V.Lamouroux, 1813.
+*M. vertebralis* est en présence de l’un de ces hôtes *Laurencia
+intricata* J.V.Lamouroux, 1813.
 
-Les auteurs ont publié les données pour réaliser cette étude (Doo et al.
-2021). Vous utiliserez une partie de ces données pour appliquer
-l’analyse de variance à un facteur et le test de Kruskal-Wallis. Les
-données mises à disposition par les auteurs de l’article se trouvent
-dans le dossier `data/raw/`.
+Les auteurs ont publié les données de cette étude (Doo et al. 2021).
+Vous utiliserez une partie de ces données pour appliquer l’analyse de
+variance à un facteur et le test de Kruskal-Wallis. Les données mises à
+disposition par les auteurs de l’article se trouvent dans le dossier
+`data/raw/`.
 
 # Objectifs
 
 Ce projet est individuel et cadré. Il permet de démontrer que vous avez
 acquis les compétences suivantes :
 
--   représenter graphiquement de la manière la plus appropriée les
-    données à comparer avec une ANOVA
--   être capable de formuler les hypothèses de l’ANOVA et du test de
-    Kruskal-Wallis
--   Pouvoir réaliser une interprétation des tests sur des données
-    biologiques
+- représenter graphiquement de la manière la plus appropriée les données
+  à comparer avec une ANOVA
+- être capable de formuler les hypothèses de l’ANOVA à un facteur
+- Pouvoir réaliser une interprétation de ce test d’hypothèse sur des
+  données biologiques
 
 # Consignes
 
-Complétez le document `vertebralis.Rmd`. Vous allez explorer la
-croissance du Formaminifère *M. vertebralis* en condition de stress en
+Complétez le document `docs/vertebralis.Rmd`. Vous allez explorer la
+croissance du Foraminifère *M. vertebralis* en condition de stress en
 présence ou non de son hôte *L. intricata*, une algue.
 
 N’oubliez pas de “knitter” le document en HTML à la fin du travail pour
