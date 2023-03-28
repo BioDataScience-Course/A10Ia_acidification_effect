@@ -15,7 +15,7 @@ output: html_document
 SciViews::R("infer", "model", lang = "fr")
 ```
 
-<!--% Importez le tableau growth.csv-->
+<!--% Importez le tableau growth.rds depuis le dossier data. -->
 
 ```{r import}
 growth <- ___
