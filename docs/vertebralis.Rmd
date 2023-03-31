@@ -115,7 +115,7 @@ write$rds(p2, here::here("tests", "p2.rds"), compress = "xz")
 
 <!--% Réalisez l'ANOVA à un facteur en utilisant la variable `temp_ph` pour le regroupement (combinaison de la variable `temp` et de la variable `ph`). -->
 
-```{r anova1}
+```{r anova2}
 anova2 <- ___
 anova(___)  
 # Ne modifiez pas ci-dessous
