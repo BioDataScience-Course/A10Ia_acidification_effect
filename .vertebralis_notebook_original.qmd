@@ -1,0 +1,476 @@
+---
+title: "Croissance d'un foraminifère en présence d’acidification et d’augmentation de la température"
+author: "___"
+date: "`r Sys.Date()`"
+format:
+  html:
+    code-fold: true
+    code-tools: true
+    toc: true
+editor: visual
+lang: fr
+editor_options: 
+  chunk_output_type: inline
+bibliography: bibliography/references.bib
+---
+
+# Introduction et but
+
+Les changements climatiques globaux se marquent à la fois par une augmentation des températures moyennes et par une diminution du pH des océans suite à l'absorption partielle du CO~2~ atmosphérique. Ce dernier phénomène est qualifié d'acidification océanique, même si le pH ne descend pas encore dans la zone acide grâce à l'effet tampon de l'eau de mer. Ces changements de conditions physico-chimiques de l'eau ont potentiellement des impacts sur les organismes marins, en particuliers sur ceux qui construisent un squelette calcaire, car le chimie de la précipitation et dissolution du carbonate de calcium en est affectée.
+
+@2020Doo ont étudié expérimentalement en aquarium les effets d'une acidification et d'une augmentation de la température sur le foraminifère vertèbre *Marginopora vertebralis* Quoy & Gaimard 1830. Ils ont également étudié en parallèle ces effets lorsque *M. vertebralis* est en présence de l'un de ses hôtes, l'algue rouge *Laurencia intricata* J.V.Lamouroux 1813 qui pourrait éventuellement limiter le stress en modulant la qualité d'eau à proximité suite à son activité photosynthétique en journée qui a tendance à remonter le pH.
+
+Le but de notre étude consiste, sur base des résultats de l'étude précédente, à déterminer si la croissance journalière du foraminifère *M. vertebralis* est affectée par une baisse du pH et/ou une augmentation de température, et ce, en absence et en présence de son hôte *L. intricata*.
+
+# Matériel et méthodes
+
+Les auteurs de l'étude citée dans l'introduction ont publié leurs données sous licence CC0 1.0 [@2021Doodata]. Nous utiliserons ici les mesures relatives à la croissance moyenne journalière.
+
+L'analyse est réalisée avec le logiciel R (`r R.version.string`) et en particulier les packages {inferit} version `r packageVersion("inferit")` et {modelit} version `r packageVersion("modelit")` dans la [SciViews Box 2023](https://www.sciviews.org/software/svbox/). [Saturn Cloud](https://saturncloud.io/) (Linux Ubuntu 22.04) est utilisé pour exécuter le code et compiler la version HTML de ce bloc-notes.
+
+Le seuil $\alpha$ de tous les tests est fixé à l'avance à 5%.
+
+# Résultats
+
+Voici la description des variables relatives au jeu de données complet :
+
+```{r setup, include=FALSE}
+# Ceci est nécessaire pour les tests SDD, ne pas utiliser dans un "vrai" projet
+if (!"tools:tests" %in% search())
+  source(here::here("tests/tools_tests.R"), attach(NULL, name = "tools:tests"))
+
+# Configuration de l'environnement SciViews::R
+SciViews::R("infer", "model", lang = "fr")
+```
+
+<!--% Importez le tableau `growth.rds` depuis le dossier `data` et décrivez-le à l'aide de la fonction `skimr::skim()`. -->
+
+```{r import, record='RODFS', object='growth'}
+growth <- read(___)
+___
+```
+
+```{r desccomment, output='asis'}
+select_answer(r"-{
+[] -   Ce jeu de données ne contient aucune valeur manquante.
+[] -   Une valeur est manquante dans ce jeu de données.
+[] -   Plusieurs valeurs sont manquantes dans ce jeu de données.
+
+[] -   Ce tableau inclut uniquement des variables numériques.
+[] -   Le tableau comporte uniquement des variables qualitatives.
+[] -   Ce tableau contient des variables qualitatives et une variable quantitative.
+[] -   Ce tableau contient des variables qualitatives et une variable quantitative, ainsi qu'une donnée de type chaîne de caractères.}-")
+```
+
+## Croissance du foraminifère sans son hôte
+
+Dans cette partie, nous n'utilisons que les mesures de croissance de *M. vertebralis* mesurées en absence de l'algue rouge *L. intricata*.
+
+<!--% Sélectionnez uniquement les observations réalisées sur *M. vertebralis* seul et placez ces données dans `growth1`. Ensuite, affichez le tableau correctement formaté présentant les premières et dernières lignes de ce tableau. -->
+
+```{r filter1, record='RODFS', object='growth1'}
+growth1 <- ___
+___
+```
+
+En voici les caractéristiques principales :
+
+<!--% Réalisez un tableau résumant l'expérience avec des descripteurs numériques pertinents, moyenne, écart type et nombre d'observations pour chaque condition. -->
+
+```{r table1, record='RODFS', object='growth1_tab'}
+growth1 %>.%
+  ___(., ___) %>.%
+  ___(.,
+    'Croissance Moyenne [%]' = ___,
+    'Écart-type [%]'         = ___,
+    'N'                      = ___) ->
+growth1_tab
+tabularise(growth1_tab, auto.labs = FALSE)
+```
+
+<!--% Réalisez un nuage de points pertinent qui présente les données en semi-transparence avec des boites de dispersion parallèles et les moyennes en rouge par condition pour illustrer la situation. -->
+
+```{r plot1, record='RNP', arg='labels'}
+chart(data = ___, ___) +
+  ___ +
+  ___(width = 0.05, alpha = 0.5) +
+  ___(geom = "point", fun = "mean", color = "red", size = 3) +
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+```{r desc1comment, output='asis'}
+select_answer(r"-{
+[] -   Les croissance moyennes ne sont pas trop différentes en fonction des conditions.
+[] -   Les croissance moyennes sont quelque peu différentes en fonction des conditions.
+[] -   Les croissance moyennes sont très différentes en fonction des conditions.
+
+[] -   Ni la température, ni le pH ne semblent influence la croissance.
+[] -   La température semble impacter négativement la croissance mais pas le pH.
+[] -   Le pH semble impacter négativement la croissance mais pas la température.
+[] -   Le pH et/ou la température semblent tous deux impacter la croissance.
+[] -   La combinaison de pH bas et température élevée semblent nécessaires pour impacter la croissance.
+
+[] -   L'étalement des données apparait relativement homogène entre les conditions (homoscédasticité).
+[] -   L'étalement des données apparait hétérogène entre les conditions (hétéroscédasticité).
+  
+[] -   Aucune valeur extrême n'est visible dans les données.
+[] -   Une valeur extrême est visible dans les données.
+[] -   Deux valeurs extrêmes sont visibles dans les données.
+[] -   Plusieurs valeurs extrêmes sont visibles dans les données.}-")
+```
+
+<!--% Indiquez quel test vous allez utiliser en considérant dans un premier temps que la croissance moyenne journalière pourrait se distribuer à peu près normalement (mais sans l'avoir encore vérifié). -->
+
+```{r test1choice, output='asis'}
+select_answer(r"-{
+[] Nous réalisons une ANOVA à un facteur en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons une ANOVA à un facteur en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :
+[] Nous réalisons un test de Kruskal-Wallis en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons un test de Kruskal-Wallis en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :}-")
+```
+
+<!-- Formulez les hypothèses nulle et alternative de votre test (ce sont des équations LaTeX. -->
+
+```{r test1hypo, output='asis'}
+select_answer(r"-{
+[] $$H_0: \mu_n = \mu_t = \mu_p = \mu_{tp}$$
+[] $$H_0:mr_n = mr_t = mr_p = mr_{tp}$$ (*mr* = rang moyen)
+  
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } \mu_i \neq \mu_j$$
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } mr_i \neq mr_j$$}-")
+```
+
+Voici le résultat du test :
+
+<!--% Réalisez votre test en utilisant la variable `Condition` pour les groupes (qui est la combinaison de la variable `Temp` et de la variable `pH`). Sortez ce résultat de manière formatée à l'aide de `tabularise()`. -->
+
+```{r anova1, record='ROP', object='growth1_anova', arg='terms'}
+growth1_anova <- ___
+___(growth1_anova) |> tabularise()
+```
+
+```{r test1comment, output='asis'}
+select_answer(r"-{
+[] -   Nous rejetons H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous ne rejetons pas H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous acceptons H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous n'acceptons pas H~0~ au seuil $\alpha$ de 5%.
+  
+[] -   Il n'y a pas de différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en l'absence de son hôte en fonction des conditions physico-chimiques de l'expérience.
+[] -   Il y a des différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en l'absence de son hôte en fonction des conditions physico-chimiques de l'expérience.
+[] -   Il y a des différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en l'absence de son hôte en fonction des conditions physico-chimiques de l'expérience. Ces différences doivent être précisées à l'aide de tests *post hoc*.}-")
+```
+
+### Vérification des conditions d'application du test
+
+-   La normalité des résidus du modèles est vérifiée à l'aide d'un graphique quantile-quantile :
+
+<!--% Tracez ici le graphique ad hoc. -->
+
+```{r normal1, record='RNP', arg='labels'}
+___
+```
+
+-   L'homoscédasticité est vérifiée à l'aide d'un test de Bartlett dont les hypothèses sont :
+
+$$H_0: var_n = var_t = var_p = var_{tp}\ \mathrm{(homoscédasticité)}$$
+$$H_1: \exists(i, j) \mathrm{\ tel\ que\ } var_i \neq var_j\ \mathrm{(hétéroscédasticité)}$$
+<!-- Effectuez le test d'homoscédasticité qui convient ici. -->
+
+```{r homos1, record='RNP', arg='method,data.name,p.value'}
+___
+```
+
+```{r test1appli, output='asis'}
+select_answer(r"-{
+[] -   Les résidus du modèle ont une distribution normale ou à peu près normale (qq-plot).
+[] -   Les résidus du modèle ont une distribution normale, à part les deux valeurs extrêmes déjà identifiées précédemment (qq-plot).
+[] -   Les résidus du modèle n'ont pas une distribution normale (qq-plot), mais elle ne s'éloigne pas troop et l'ANOVA étant relativement robuste, nous pouvons la conserver.
+[] -   Les résidus du modèle n'ont pas une distribution normale (qq-plot), nous devons tranformer les données ou nutiliser un test de Kruskal-Wallis à la place.
+  
+[] -   Nous avons homoscédasticité des résidus au seuil $\alpha$ de 5% (test de Bartlett).
+[] -   Nous avons hétéroscédasticité des résidus au seuil $\alpha$ de 5% (test de Bartlett). Nous ne pouvons pas nous fier aux résultats de l'ANOVA et devons transformer les données ou utiliser un test de Kruskal-Wallis à la place.
+
+[] -   Les conditions d'application du test sont remplies.
+[] -   Les conditions d'application du test ne sont pas remplies.}-")
+```
+
+### Comparaisons multiples en absence de l'hôte
+
+<!--% Réalisez le test de comparaisons multiples relatif à votre premier test. Affichez-en le résumé et le graphique. -->
+
+```{r multcomp1, record='ROP', object='growth1_posthoc', arg='linfct'}
+summary(growth1_posthoc <- ___(___(__,
+  linfct = multcomp::mcp(___))))
+
+oma <- par(oma = c(0, 5.1, 0, 0))
+___(growth1_posthoc)
+```
+
+```{r test1multicomment, output='asis'}
+select_answer(r"-{
+[] -   Aucune différence deux à deux n'est significative au seuil $\alpha$ de 5%.
+[] -   Toutes les différences deux à deux sont significatives au seuil $\alpha$ de 5%.
+[] -   Certaines différences deux à deux sont significatives au seuil $\alpha$ de 5% mais pas toutes.
+  
+[] -   Globalement, le manque d'effet de la température et du pH se confirme au seuil $\alpha$ de 5%.
+[] -   Globalement, l'effet de la température et/ou du pH se confirme au seuil $\alpha$ de 5%.
+[] -   Globalement, seul la combinaison température élevée + pH bas donne un effet significatif au seuil $\alpha$ de 5%.
+[] -   Globalement, seule la température élevée induit un effet signifcatif au seuil $\alpha$ de 5%. Cet effet consiste en une diminution de la croissance.
+[] -   Globalement, seule la température élevée induit un effet signifcatif au seuil $\alpha$ de 5%. Cet effet consiste en une augmentation de la croissance.
+[] -   Globalement, seul le pH bas induit un effet signifcatif au seuil $\alpha$ de 5%. Cet effet consiste en une diminution de la croissance.
+[] -   Globalement, seul le pH bas induit un effet signifcatif au seuil $\alpha$ de 5%. Cet effet consiste en une augmentation de la croissance.}-")
+```
+
+### Autre version du premier test
+
+<!--# Réalisez une autre version (paramétrique vs non paramétrique) de votre test à des fins didactiques. Normalement, nous ne réalisons pas systématiquement les deux variantes, mais vous le faites ici pour bien en saisir les différences. -->
+
+<!--% Indiquez quel test alternatif vous allez utiliser. -->
+
+```{r test1bchoice, output='asis'}
+select_answer(r"-{
+[] Nous réalisons ensuite une ANOVA à un facteur en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons ensuite une ANOVA à un facteur en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :
+[] Nous réalisons ensuite un test de Kruskal-Wallis en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons ensuite un test de Kruskal-Wallis en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :}-")
+```
+
+<!-- Formulez les hypothèses nulle et alternative de votre test (ce sont des équations LaTeX). -->
+
+```{r test1bhypo, output='asis'}
+select_answer(r"-{
+[] $$H_0: \mu_n = \mu_t = \mu_p = \mu_{tp}$$
+[] $$H_0:mr_n = mr_t = mr_p = mr_{tp}$$ (*mr* = rang moyen)
+  
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } \mu_i \neq \mu_j$$
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } mr_i \neq mr_j$$}-")
+```
+
+<!--% Réalisez le test ci-dessous. -->
+
+```{r kruskal1, record='RNP', arg='method,data.name,p.value'}
+___
+```
+
+<!--% Effectuez également les comparaisons multiples correspondantes et affichez-en uniquement le graphique. -->
+
+```{r multcompkw1, record='ROP', object='growth1_kw_comp', arg='Analysis,connames'}
+growth1_kw_comp <- ___(data = ___, ___)
+# Renommer les niveaux pour correspondre à la sortie de nparcomp
+growth1_kw_comp$connames <- gsub("p\\( ([^ ]+) , ([^ ]+) \\)", "\\1-\\2",
+  growth1_kw_comp$connames)
+___(growth1_kw_comp)
+```
+
+<!--% Interprétez cette version alternative du test. -->
+
+```{r test1bcomment, output='asis'}
+select_answer(r"-{
+[] -   Notre test alternatif arrive aux mêmes conclusions générales que le premier.
+[] -   Notre test alternatif ne donne pas les mêmes résultats que le premier. Il doit y avoir une erreur de calcul.
+[] -   Notre test alternatif ne donne pas les mêmes résultats que le premier. Ceci s'explique sans doute par une différence de puissance des deux tests et des valeurs *P* proches du seuil.
+
+[] - Les graphiques des deux méthodes pour les comparaisons multiples présentent les tests dans le même ordre.
+[] - Les graphiques des deux méthodes pour les comparaisons multiples présentent les tests dans l'ordre inverse.
+[] - Les graphiques des deux méthodes pour les comparaisons multiples présentent les tests dans l'ordre inverse et inversent aussi les tests (ex.: n-p *versus* p-n).
+
+[] -   Les comparaisons multiples donnent des résultats similaires entre les deux tests.
+[] -   Les comparaisons multiples donnent des résultats différents entre les deux tests. Il doit y avoir une erreur de calcul.
+[] -   Les comparaisons multiples donnent des résultats différents. Ceci s'explique sans doute par une différence de puissance des deux tests et des valeurs *P* proches du seuil.
+
+[] -   La comparaison n-p/p-n est différente entre les tests.
+[] -   La comparaison n-t/t-n est différente entre les tests.
+[] -   La comparaison n-tp/tp-n est différente entre les tests.
+[] -   La comparaison p-t/t-p est différente entre les tests.
+[] -   La comparaison p-tp/tp-p est différente entre les tests.
+[] -   La comparaison t-tp/tp-t est différente entre les tests.
+
+[] -   Pour les différences observées, le test paramétrique indique une différence significative au seuil $\alpha$ de 5% mais pas le test non paramétrique dans les comparaisons multiples.
+[] -   Pour les différences observées, le test non paramétrique indique une différence significative au seuil $\alpha$ de 5% mais pas le test paramétrique dans les comparaisons multiples.}-")
+```
+
+
+## Croissance du foraminifère en présence de l'algue rouge
+
+Nous utilisons les mesures de croissance de *M. vertebralis* sur son hôte *L. intricata*.
+
+<!--% Sélectionnez uniquement les observations réalisées sur *M. vertebralis* en présence de *L. intricata* et placez ces données dans `growth2`. Ensuite, affichez le tableau correctement formaté présentant les premières et dernières lignes de ce tableau. -->
+
+```{r filter2, record='RODFS', object='growth2'}
+growth2 <- ___
+___(growth2)
+```
+
+En voici les caractéristiques principales :
+
+<!--% Réalisez un tableau résumant l'expérience avec des descripteurs numériques pertinents, moyenne, écart type et nombre d'observations pour chaque condition. -->
+
+```{r table2, record='RODFS', object='growth2_tab'}
+growth2 %>.%
+  ___(., ___) %>.%
+  ___(.,
+    'Croissance Moyenne [%]' = ___,
+    'Écart-type [%]'         = ___,
+    'N'                      = ____) ->
+growth2_tab
+tabularise(growth2_tab, auto.labs = FALSE)
+```
+
+<!--% Réalisez un nuage de points pertinent qui présente les données en semi-transparence avec des boites de dispersion parallèles et les moyennes en rouge par condition pour illustrer la situation. -->
+
+```{r plot2, record='RNP', arg='labels'}
+chart(data = ___, ___) +
+  ___ +
+  ___(width = 0.05, alpha = 0.5) +
+  ___(geom = "point", fun = "mean", color = "red", size = 3) +
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+```{r desc2comment, output='asis'}
+select_answer(r"-{
+[] -   Les croissance moyennes ne sont pas trop différentes en fonction des conditions.
+[] -   Les croissance moyennes sont quelque peu différentes en fonction des conditions.
+[] -   Les croissance moyennes sont très différentes en fonction des conditions.
+
+[] -   Ni la température, ni le pH ne semblent influencer fortement la croissance.
+[] -   La température semble impacter négativement la croissance mais pas le pH.
+[] -   Le pH semble impacter négativement la croissance mais pas la température.
+[] -   Le pH et/ou la température semblent tous deux impacter la croissance.
+[] -   La combinaison de pH bas et température élevée semblent nécessaires pour impacter la croissance.
+
+[] -   L'étalement des données apparait relativement homogène entre les conditions (homoscédasticité).
+[] -   L'étalement des données apparait hétérogène entre les conditions (hétéroscédasticité ?)
+  
+[] -   Aucune valeur extrême n'est visible dans les données.
+[] -   Une valeur extrême est visible dans les données.
+[] -   Deux valeurs extrêmes sont visibles dans les données.
+[] -   Plusieurs valeurs extrêmes sont visibles dans les données.}-")
+```
+
+<!--% Indiquez quel test vous allez utiliser en considérant dans un premier temps que la croissance moyenne journalière pourrait se distribuer à peu près normalement et que l'hétéroscédasticité observée à l'oeil pourrait ne pas être significative (mais sans l'avoir encore vérifié). -->
+
+```{r test2choice, output='asis'}
+select_answer(r"-{
+[] Nous réalisons une ANOVA à un facteur en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons une ANOVA à un facteur en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :
+[] Nous réalisons un test de Kruskal-Wallis en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons un test de Kruskal-Wallis en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :}-")
+```
+
+<!-- Formulez les hypothèses nulle et alternative de votre test (ce sont des équations LaTeX. -->
+
+```{r test2hypo, output='asis'}
+select_answer(r"-{
+[] $$H_0: \mu_n = \mu_t = \mu_p = \mu_{tp}$$
+[] $$H_0:mr_n = mr_t = mr_p = mr_{tp}$$ (*mr* = rang moyen)
+  
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } \mu_i \neq \mu_j$$
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } mr_i \neq mr_j$$}-")
+```
+
+Voici le résultat du test :
+
+<!--% Réalisez votre test en utilisant la variable `Condition` pour les groupes (qui est la combinaison de la variable `Temp` et de la variable `pH`). Sortez ce résultat de manière formatée à l'aide de `tabularise()`. -->
+
+```{r anova2, record='ROP', object='growth1_anova', arg='terms'}
+growth2_anova <- ___
+___(growth2_anova) |> ___()
+```
+
+```{r test2comment, output='asis'}
+select_answer(r"-{
+[] -   Nous rejetons H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous ne rejetons pas H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous acceptons H~0~ au seuil $\alpha$ de 5%.
+[] -   Nous n'acceptons pas H~0~ au seuil $\alpha$ de 5%.
+  
+[] -   Il n'y a pas de différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en présence de *L. intricata* en fonction des conditions physico-chimiques de l'expérience.
+[] -   Il y a des différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en présence de *L. intricata* en fonction des conditions physico-chimiques de l'expérience.
+[] -   Il y a des différences significatives au seuil $\alpha$ de 5% dans la croissance moyenne journalière de *M. vertebralis* en présence de *L. intricata* en fonction des conditions physico-chimiques de l'expérience. Ces différences doivent être précisées à l'aide de tests *post hoc*.}-")
+```
+
+### Vérification des conditions d'application du test en présence de l'hôte
+
+-   La normalité des résidus du modèles est vérifiée à l'aide d'un graphique quantile-quantile :
+
+<!--% Tracez ici le graphique ad hoc. -->
+
+```{r normal2, record='RNP', arg='labels'}
+___
+```
+
+-   L'homoscédasticité est vérifiée à l'aide d'un test de Bartlett dont les hypothèses sont :
+
+$$H_0: var_n = var_t = var_p = var_{tp}\ \mathrm{(homoscédasticité)}$$
+$$H_1: \exists(i, j) \mathrm{\ tel\ que\ } var_i \neq var_j\ \mathrm{(hétéroscédasticité)}$$
+
+<!-- Effectuez le test d'homoscédasticité qui convient ici. -->
+
+```{r homos2, record='RNP', arg='method,data.name,p.value'}
+___
+```
+
+```{r test2appli, output='asis'}
+select_answer(r"-{
+[] -   Les résidus du modèle ont une distribution normale ou à peu près normale (qq-plot).
+[] -   Les résidus du modèle ont une distribution normale, à part les deux valeurs extrêmes déjà identifiées précédemment (qq-plot).
+[] -   Les résidus du modèle n'ont pas une distribution normale (qq-plot), mais elle ne s'éloigne pas troop et l'ANOVA étant relativement robuste, nous pouvons la conserver.
+[] -   Les résidus du modèle n'ont pas une distribution normale (qq-plot), nous devons tranformer les données ou nutiliser un test de Kruskal-Wallis à la place.
+  
+[] -   Nous avons homoscédasticité des résidus au seuil $\alpha$ de 5% (test de Bartlett).
+[] -   Nous avons hétéroscédasticité des résidus au seuil $\alpha$ de 5% (test de Bartlett). Nous ne pouvons pas nous fier aux résultats de l'ANOVA et devons transformer les données ou utiliser un test de Kruskal-Wallis à la place.
+
+[] -   Les conditions d'application du test sont remplies.
+[] -   Les conditions d'application du test ne sont pas remplies.}-")
+```
+
+### Autre version du test en présence de l'hôte
+
+<!--# Réalisez une autre version (paramétrique vs non paramétrique) de votre test en présence de l'hôte à des fins didactiques. Normalement, nous ne réalisons pas systématiquement les deux variantes, mais vous le faites ici pour bien en saisir les différences. -->
+
+<!--% Indiquez quel test alternatif vous allez utiliser. -->
+
+```{r test2bchoice, output='asis'}
+select_answer(r"-{
+[] Nous réalisons ensuite une ANOVA à un facteur en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons ensuite une ANOVA à un facteur en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :
+[] Nous réalisons ensuite un test de Kruskal-Wallis en utilisant `Temp` et `pH`. Les hypothèses sont :
+[] Nous réalisons ensuite un test de Kruskal-Wallis en utilisant `Condition` qui combine les variations du milieu en un seul facteur. Les hypothèses sont :}-")
+```
+
+<!-- Formulez les hypothèses nulle et alternative de votre test (ce sont des équations LaTeX). -->
+
+```{r test2bhypo, output='asis'}
+select_answer(r"-{
+[] $$H_0: \mu_n = \mu_t = \mu_p = \mu_{tp}$$
+[] $$H_0:mr_n = mr_t = mr_p = mr_{tp}$$ (*mr* = rang moyen)
+  
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } \mu_i \neq \mu_j$$
+[] $$H_1: \exists(i, j) \mathrm{\ tel\ que\ } mr_i \neq mr_j$$}-")
+```
+
+<!--% Réalisez le test ci-dessous. -->
+
+```{r kruskal2, record='RNP', arg='method,data.name,p.value'}
+___
+```
+
+<!--% Interprétez cette version alternative du test. -->
+
+```{r test2bcomment, output='asis'}
+select_answer(r"-{
+[] -   Notre test alternatif arrive aux mêmes conclusions générales que le premier.
+[] -   Notre test alternatif ne donne pas les mêmes résultats que le premier. Il doit y avoir une erreur de calcul.
+[] -   Notre test alternatif ne donne pas les mêmes résultats que le premier. Ceci s'explique sans doute par une différence de puissance des deux tests et des valeurs *P* proches du seuil.}-")
+```
+
+# Discussion et conclusions
+
+<!--% Concluez votre travail en trois phrases maximum. La température et/ou le pH ont-ils un effet sur la croissance de *M. vertebralis* ? Dans quel sens ? La présence ou l'absence de l'hôte *L. intricata* modifie-t-elle cet effet ? -->
+
+...Votre discussion ici...
+
+# Références
+
+<!--% Ne rien indiquer ici. La référence bibliographique se placera automatiquement ici.-->
